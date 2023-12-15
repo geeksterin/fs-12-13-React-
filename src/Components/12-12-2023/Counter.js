@@ -37,8 +37,10 @@ const Counter = () => {
   };
 
   const onStudentNameUpdate = () => {
-    const updateObject = { ...student, name: "XYZ" };
+    const updateObject = { ...student }; // WAY 1
+    updateObject.name = "XYZ"; // WAY 1
 
+    // const updateObject = { ...student, name: "XYZ" }; // WAY 2
     setStudent(updateObject);
   };
 
