@@ -1,13 +1,11 @@
 import { useState } from "react";
 import "./App.css";
-import Header from "./Components/19-12-2023/Header";
-import Main from "./Components/19-12-2023/Main";
+import SideEffectsDemo from "./Components/02-01-2024/SideEffectsDemo";
 
 function App() {
   return (
     <div className="App">
-      <Header />
-      <Main />
+      <SideEffectsDemo />
     </div>
   );
 }
