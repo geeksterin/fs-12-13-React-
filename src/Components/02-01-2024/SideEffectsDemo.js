@@ -17,16 +17,13 @@ const SideEffectsDemo = () => {
     //   console.log(err);
     // }
     const encodedParams = new URLSearchParams();
-    encodedParams.set('source_language', 'en');
-    encodedParams.set('target_language', 'id');
-    encodedParams.set('text', 'What is your name?');
+    encodedParams.set("source_language", "en");
+    encodedParams.set("target_language", "id");
+    encodedParams.set("text", "What is your name?");
 
     const response = axios.post(
       "https://text-translator2.p.rapidapi.com/translate?source_language=en&target_language=en&text=how are you",
-      {},
-      {
-        headers: headers,
-      }
+      {}
     );
     try {
       const response = await axios.get(
