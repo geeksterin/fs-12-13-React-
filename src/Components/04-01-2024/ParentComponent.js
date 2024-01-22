@@ -29,6 +29,10 @@ const ParentComponent = () => {
   const increaseChildCounter = useCallback(() => {
     setChildCounter(childCounter + 1);
   }, [childCounter]);
+
+  // const increaseChildCounter = () => {
+  //   setChildCounter(childCounter + 1);
+  // };
   // Syntax : const fn = useCallback(fn,dependencyArray)
   /**
    * [] => Once
@@ -39,15 +43,15 @@ const ParentComponent = () => {
   return (
     <>
       <h1>Parent Component</h1>
-      <input ref={inputRef} type="text" placeholder="Enter your name" />
-      <button onClick={onFoucsClick}>Focus on Input Field</button>
+      {/* <input ref={inputRef} type="text" placeholder="Enter your name" /> */}
+      {/* <button onClick={onFoucsClick}>Focus on Input Field</button> */}
       Parent Counter {parentCounter} <br />
       <button onClick={increaseParentCounter}>Increase Parent Counter</button>
       <button onClick={increaseChildCounter}>Increase Child Counter</button>
       <ChildComponent
         increaseChildCounter={increaseChildCounter} // Non primitive prop
         childCounter={childCounter}
-        data={data}
+        // data={data}
       />
     </>
   );

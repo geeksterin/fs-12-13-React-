@@ -1,30 +1,35 @@
 import "./App.css";
-import { useState } from "react";
-import { createBrowserRouter, RouterProvider, createHashRouter } from "react-router-dom";
+import { useState, lazy, Suspense } from "react";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  createHashRouter,
+} from "react-router-dom";
 
 import ContextDemo from "./Components/11-01-2024/ContextDemo";
 import { UserContext } from "./context/UserContext";
 import HotelDetails from "./Components/08-01-2024/HotelDetails";
+import ParentComponent from "./Components/04-01-2024/ParentComponent";
+// import Optimization from "./Components/22-01-2024/Optimization";
+// import Settings from "./Components/22-01-2024/Settings"; // Normal Import
+
+const Optimization = lazy(() => import("./Components/22-01-2024/Optimization"));
+
+const Settings = lazy(() =>
+  delayForDemo(import("./Components/22-01-2024/Settings"))
+); // Lazy Import
 
 function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <ContextDemo />,
+      element: <Optimization />,
       errorElement: <h1>Error element screen for not found</h1>,
     },
     {
-      path: "/about-us",
-      element: <h1>About us page</h1>,
+      path: "/settings",
+      element: <Settings />,
     },
-    {
-      path: "/hotel/:hotelId",
-      element: <HotelDetails />
-    }
-    // {
-    //   path: "*",
-    //   element: <h1>Page not found</h1>,
-    // },
   ]);
 
   const [user, setUser] = useState({
@@ -36,10 +41,18 @@ function App() {
   return (
     <div className="App">
       <UserContext.Provider value={{ user, setUser }}>
-        <RouterProvider router={router} />
+        <Suspense fallback={<h1>Loading....</h1>}>
+          <RouterProvider router={router} />
+        </Suspense>
       </UserContext.Provider>
     </div>
   );
+}
+
+function delayForDemo(promise) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, 4000);
+  }).then(() => promise);
 }
 
 export default App;

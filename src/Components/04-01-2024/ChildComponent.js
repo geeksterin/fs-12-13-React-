@@ -11,3 +11,4 @@ const ChildComponent = (props) => {
 };
 
 export default memo(ChildComponent);
+// export default ChildComponent;
