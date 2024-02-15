@@ -1,48 +1,36 @@
-const readline = require("node:readline");
-// import readLine from "node:readline";
 const fs = require("node:fs");
 
-console.log("A");
-fs.readFile("sample.txt", (err, data) => {
-  if (err) {
-    console.log(err);
-    return;
+const deleteFile = () => {
+  const respnose = fs.unlinkSync("sample.txt");
+  console.log(respnose);
+};
+
+// deleteFile();
+
+const readFile = (filePath) => {
+  const data = fs.readFileSync(filePath);
+  return data.toString();
+};
+
+const writeFile = (filePath, dataToWrite) => {
+  const response = fs.writeFileSync(filePath, dataToWrite);
+  return response;
+};
+
+const json = readFile("users.json");
+const usersList = JSON.parse(json);
+console.log(usersList);
+
+const updatedUsersList = usersList.map((user) => {
+  if (user.id === 3) {
+    return {
+      ...user,
+      name: "John",
+    };
   }
-  console.log("B");
-  console.log(data.toString());
+  return user;
 });
 
-// const data = fs.readFileSync("sample.txt")
-console.log("C");
+console.log(updatedUsersList);
+// writeFile("users.json", JSON.stringify(updatedUsersList));
 
-const str = "\nHappy Eid";
-
-fs.writeFile("sample.txt", "Hey there", (err) => {
-  if (err) {
-    console.log(err);
-    return;
-  }
-});
-
-// fs.writeFileSync();
-fs.appendFile("sample.txt", str, (err) => {
-  if (err) {
-    console.log(err);
-    return;
-  }
-});
-
-// fs.appendFileSync();
-
-// const rl = readline.createInterface({
-//   input: process.stdin,
-//   output: process.stdout,
-// });
-
-// // const name = prompt("Enter your name");
-// let input;
-// rl.question("Enter your name ", (name) => {
-//     input = name;
-//   console.log(name);
-//   rl.close();
-// });

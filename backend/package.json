@@ -4,7 +4,7 @@
   "description": "My first backend application",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "nodemon 15-02-2024/filesystem.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -12,5 +12,11 @@
     "apis"
   ],
   "author": "divyansh",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "divyansh_npmmodule": "^1.0.1"
+  },
+  "devDependencies": {
+    "dayjs": "^1.11.10"
+  }
 }
