@@ -4,7 +4,7 @@
   "description": "My first backend application",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon 15-02-2024/filesystem.js",
+    "start": "nodemon 16-02-2024/scrapper.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -14,7 +14,10 @@
   "author": "divyansh",
   "license": "ISC",
   "dependencies": {
-    "divyansh_npmmodule": "^1.0.1"
+    "axios": "^1.6.7",
+    "cheerio": "^1.0.0-rc.12",
+    "divyansh_npmmodule": "^1.0.1",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "dayjs": "^1.11.10"
