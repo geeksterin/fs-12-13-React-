@@ -1,10 +1,11 @@
 {
   "name": "backend",
   "version": "1.0.0",
+  "type": "module",
   "description": "My first backend application",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon 20-02-2024/server.js",
+    "start": "nodemon 22-02-2024/urlShortner.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -18,6 +19,8 @@
     "cheerio": "^1.0.0-rc.12",
     "divyansh_npmmodule": "^1.0.1",
     "express": "^4.18.2",
+    "morgan": "^1.10.0",
+    "nanoid": "^5.0.6",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
