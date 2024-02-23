@@ -3,10 +3,13 @@ import express from "express"; // ESM
 import fs from "node:fs";
 import path from "node:path";
 import { nanoid } from "nanoid";
-
+import { fileURLToPath } from "node:url";
 // const __dirname = import.meta.url;
 // console.log(__dirname)
 const app = express();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const isURLValid = (url) => {
   try {
@@ -18,6 +21,11 @@ const isURLValid = (url) => {
 };
 
 app.use(express.json());
+
+app.get("/", (req, res) => {
+  console.log("Request received on /");
+  res.sendFile(__dirname + "/urlForm.html");
+});
 
 app.post("/url-shortner", (req, res) => {
   const longUrl = req.body.url;
