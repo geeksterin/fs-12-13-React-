@@ -1,0 +1,21 @@
+{
+  "name": "job-app",
+  "version": "1.0.0",
+  "description": "APIs for job application",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "apis",
+    "job",
+    "app"
+  ],
+  "author": "divyansh",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^8.2.0"
+  }
+}
