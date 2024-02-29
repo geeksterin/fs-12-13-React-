@@ -1,12 +1,18 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const dotenv = require("dotenv");
 
 const jobRoutes = require("./routes/job");
 
-const app = express();
+dotenv.config();
 
+const app = express();
+console.log(process.env.DB_USERNAME, process.env.DB_PASSWORD);
 mongoose
-  .connect("mongodb://localhost:27017/jobapp")
+  .connect(
+    `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD
+  }@cluster0.iuleykq.mongodb.net/`
+  )
   .then(() => {
     console.log("Database connected successfully");
   })
