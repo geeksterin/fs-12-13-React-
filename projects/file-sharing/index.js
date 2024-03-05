@@ -5,6 +5,8 @@ const fileSharingRoutes = require("./routes/fileSharing");
 
 const app = express();
 
+app.use(express.json());
+
 mongoose
   .connect("mongodb://localhost:27017/file_sharing")
   .then(() => console.log("Database connection established successfully"))
