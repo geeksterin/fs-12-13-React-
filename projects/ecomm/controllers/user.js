@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const UserModel = require("../models/user");
 
@@ -27,18 +28,26 @@ const userLogin = async (req, res) => {
       message: "Invalid username or password",
     });
   }
-  console.log(user.password);
 
   const isPasswordCorrect = bcrypt.compareSync(
     req.body.password,
     user.password
   );
-  console.log(isPasswordCorrect);
+
+  const expiryDateTime = Math.floor(new Date().getTime() / 1000) + 7200; // 1 hr from now
 
   if (isPasswordCorrect) {
+    const payload = {
+      name: user.firstname,
+      role: user.role,
+      exp: expiryDateTime,
+    };
+
+    const token = jwt.sign(payload, process.env.JWT_SECRET_KEY);
     return res.json({
       success: true,
       message: "Logged in successfully",
+      token,
     });
   }
   res.json({
