@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const UserModel = require("../models/user");
 
 // function authMiddleware(role) {
 //   return function(req,res,next) {
@@ -6,15 +7,16 @@ const jwt = require("jsonwebtoken");
 //   }
 // }
 
-const authMiddleware = (role) => (req, res, next) => {
+const authMiddleware = (role) => async (req, res, next) => {
   try {
-    const data = jwt.verify(
-      req.headers.authorization,
-      process.env.JWT_SECRET_KEY
-    );
     const tokenFromHeaders = req.headers.authorization.split(" ")[1];
+    const data = jwt.verify(tokenFromHeaders, process.env.JWT_SECRET_KEY);
+    // console.log("TOKEN", tokenFromHeaders);
     const payload = jwt.decode(tokenFromHeaders);
     if (role.includes(payload.role)) {
+      const user = await UserModel.findById(payload.id);
+      // console.log("USER", user);
+      req.user = user;
       next();
     } else {
       res.status(403).json({

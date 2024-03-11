@@ -38,6 +38,7 @@ const userLogin = async (req, res) => {
 
   if (isPasswordCorrect) {
     const payload = {
+      id: user._id,
       name: user.firstname,
       role: user.role,
       exp: expiryDateTime,

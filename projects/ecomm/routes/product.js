@@ -15,4 +15,12 @@ router.get(
   productController.getProduct
 );
 
+router.post(
+  "/:productId/:action",
+  authMiddleware(["buyer", "seller", "admin"]),
+  productController.likeDislikeController
+);
+
+router.get("/product-by-id", productController.productDetailsController);
+
 module.exports = router;

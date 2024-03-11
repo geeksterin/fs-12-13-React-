@@ -3,15 +3,15 @@ const mongoose = require("mongoose");
 const productSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true
+    required: true,
   },
-  description : {
+  description: {
     type: String,
-    required: true
+    required: true,
   },
   price: {
     type: Number,
-    required: true
+    required: true,
   },
   stock: {
     type: Number,
@@ -19,11 +19,25 @@ const productSchema = new mongoose.Schema({
   },
   brand: {
     type: String,
-    required: true
+    required: true,
   },
   category: {
     type: String,
-    required: true
+    required: true,
+  },
+  likes: {
+    type: [mongoose.Schema.Types.ObjectId],
+    default: [],
+    ref: "users"
+  },
+  dislikes: {
+    type: [mongoose.Schema.Types.ObjectId],
+    default: [],
+    ref: "users"
+  },
+  likesCount: {
+    type: Number,
+    default: 0
   }
 });
 
