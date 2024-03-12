@@ -23,6 +23,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  wishlist: {
+    type: [mongoose.Schema.Types.ObjectId],
+    default: [],
+    ref: "products"
+  },
 });
 
 userSchema.pre("save", function () {

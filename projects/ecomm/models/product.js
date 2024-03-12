@@ -28,17 +28,23 @@ const productSchema = new mongoose.Schema({
   likes: {
     type: [mongoose.Schema.Types.ObjectId],
     default: [],
-    ref: "users"
+    ref: "users",
   },
   dislikes: {
     type: [mongoose.Schema.Types.ObjectId],
     default: [],
-    ref: "users"
+    ref: "users",
   },
-  likesCount: {
-    type: Number,
-    default: 0
-  }
+  reviews: {
+    type: [
+      {
+        rating: Number,
+        comment: String,
+        userId: mongoose.Schema.Types.ObjectId,
+      },
+    ],
+    default: [],
+  },
 });
 
 const ProductModel = mongoose.model("products", productSchema);

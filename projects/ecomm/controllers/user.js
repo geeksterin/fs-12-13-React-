@@ -64,10 +64,37 @@ const userLogout = async (req, res) => {
   });
 };
 
+const addProductToWishlist = async (req, res) => {
+  // console.log()
+  const updateObject = {
+    $push: {
+      wishlist: req.body.productId,
+    },
+  };
+  await UserModel.findByIdAndUpdate(req.user._id, updateObject);
+  res.json({
+    success: true,
+    message: "Product added to wishlist",
+  });
+};
+
+const getUserWishlist = async (req, res) => {
+  const user = await UserModel.findById(req.user._id, "wishlist").populate(
+    "wishlist",
+    "title price"
+  );
+  res.json({
+    success: true,
+    result: user,
+  });
+};
+
 const controllers = {
   userRegistration,
   userLogin,
   userLogout,
+  addProductToWishlist,
+  getUserWishlist,
 };
 
 module.exports = controllers;

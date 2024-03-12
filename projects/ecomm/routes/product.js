@@ -16,6 +16,12 @@ router.get(
 );
 
 router.post(
+  "/:productId/review",
+  authMiddleware(["admin", "buyer", "seller"]),
+  productController.reviewProductController
+);
+
+router.post(
   "/:productId/:action",
   authMiddleware(["buyer", "seller", "admin"]),
   productController.likeDislikeController

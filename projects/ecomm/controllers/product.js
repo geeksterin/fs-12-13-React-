@@ -30,15 +30,14 @@ const likeDislikeController = async (req, res) => {
   let updateObject = {
     $push: { likes: req.user._id },
     $pull: { dislikes: req.user._id },
-    $inc: { likesCount: 1 }
+    $inc: { likesCount: 1 },
   };
-  
 
   if (req.params.action === "dislike") {
     updateObject = {
       $push: { dislikes: req.user._id },
       $pull: { likes: req.user._id },
-      $inc: { likesCount: -1 }
+      $inc: { likesCount: -1 },
     };
   }
   const updatedProduct = await ProductModel.findByIdAndUpdate(
@@ -64,12 +63,80 @@ const productDetailsController = async (req, res) => {
   });
 };
 
+const reviewProductController = async (req, res) => {
+  /**
+   * 1. productId : URL param
+   * 2. rating, comment : Request body
+   * 3. userId: auth middleware
+   */
+
+  const product = await ProductModel.findById(req.params.productId);
+  const review = product.reviews.find(
+    (review) => review.userId.toString() === req.user._id.toString()
+  );
+
+  if (review) {
+    // Update review
+    console.log("REVIEW EXISTS");
+    /**
+     * 1. Find the sub document
+     * 2. Update the sub document
+     */
+
+    const findObject = {
+      reviews: {
+        $elemMatch: {
+          userId: req.user._id,
+        },
+      },
+    };
+
+    const updateObject = {
+      $set: {
+        "review.$.ratings": req.body.rating,
+        "review.$.comment": req.body.comment,
+      },
+    };
+
+    await ProductModel.findByIdAndUpdate(findObject, updateObject);
+  } else {
+    console.log("REVIEW DOESNT EXISTS");
+    // Add review
+    const updateObject = {
+      $push: {
+        reviews: {
+          rating: req.body.rating,
+          comment: req.body.comment,
+          userId: req.user._id,
+        },
+      },
+    };
+    const updatedRecord = await ProductModel.findByIdAndUpdate(
+      req.params.productId,
+      updateObject,
+      {
+        new: true,
+      }
+    );
+  }
+  // console.log(product);
+  // return;
+
+  // console.log(updatedRecord);
+
+  res.json({
+    success: true,
+    message: "Product review saved successfully",
+  });
+};
+
 const controllers = {
   createProduct,
   getProduct,
   editProduct,
   likeDislikeController,
   productDetailsController,
+  reviewProductController,
 };
 
 module.exports = controllers;
