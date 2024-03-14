@@ -23,4 +23,10 @@ router.get(
   userController.getUserWishlist
 );
 
+router.post(
+  "/address",
+  authMiddleware(["seller", "buyer", "admin"]),
+  userController.saveUserAddress
+);
+
 module.exports = router;

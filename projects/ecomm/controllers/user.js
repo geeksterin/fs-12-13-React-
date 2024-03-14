@@ -89,12 +89,48 @@ const getUserWishlist = async (req, res) => {
   });
 };
 
+const saveUserAddress = async (req, res) => {
+  const address = req.body;
+  const setObject = {};
+
+  if (address.address) {
+    setObject["address.address"] = address.address;
+  }
+
+  if (address.city) {
+    setObject["address.city"] = address.city;
+  }
+
+  if (address.state) {
+    setObject["address.state"] = address.state;
+  }
+
+  if (address.pincode) {
+    setObject["address.pincode"] = address.pincode;
+  }
+
+  const updateObject = {
+    $set: setObject,
+  };
+
+  const updateResult = await UserModel.findByIdAndUpdate(
+    req.user._id,
+    updateObject
+  );
+  console.log(updateResult);
+  res.json({
+    success: true,
+    message: "Dummy Save address API",
+  });
+};
+
 const controllers = {
   userRegistration,
   userLogin,
   userLogout,
   addProductToWishlist,
   getUserWishlist,
+  saveUserAddress,
 };
 
 module.exports = controllers;

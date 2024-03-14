@@ -64,70 +64,76 @@ const productDetailsController = async (req, res) => {
 };
 
 const reviewProductController = async (req, res) => {
-  /**
-   * 1. productId : URL param
-   * 2. rating, comment : Request body
-   * 3. userId: auth middleware
-   */
-
-  const product = await ProductModel.findById(req.params.productId);
-  const review = product.reviews.find(
-    (review) => review.userId.toString() === req.user._id.toString()
-  );
-
-  if (review) {
-    // Update review
-    console.log("REVIEW EXISTS");
+  try {
     /**
-     * 1. Find the sub document
-     * 2. Update the sub document
+     * 1. productId : URL param
+     * 2. rating, comment : Request body
+     * 3. userId: auth middleware
      */
 
-    const findObject = {
-      reviews: {
-        $elemMatch: {
-          userId: req.user._id,
-        },
-      },
-    };
-
-    const updateObject = {
-      $set: {
-        "review.$.ratings": req.body.rating,
-        "review.$.comment": req.body.comment,
-      },
-    };
-
-    await ProductModel.findByIdAndUpdate(findObject, updateObject);
-  } else {
-    console.log("REVIEW DOESNT EXISTS");
-    // Add review
-    const updateObject = {
-      $push: {
-        reviews: {
-          rating: req.body.rating,
-          comment: req.body.comment,
-          userId: req.user._id,
-        },
-      },
-    };
-    const updatedRecord = await ProductModel.findByIdAndUpdate(
-      req.params.productId,
-      updateObject,
-      {
-        new: true,
-      }
+    const product = await ProductModel.findById(req.params.productId);
+    const review = product.reviews.find(
+      (review) => review.userId.toString() === req.user._id.toString()
     );
+
+    if (review) {
+      // Update review
+      /**
+       * 1. Find the sub document
+       * 2. Update the sub document
+       */
+
+      const findObject = {
+        reviews: {
+          $elemMatch: {
+            userId: req.user._id,
+            rating: review.rating,
+          },
+        },
+      };
+
+      const updateObject = {
+        $set: {
+          "reviews.$.rating": req.body.rating,
+          "reviews.$.comment": req.body.comment,
+        },
+      };
+
+      const updateResult = await ProductModel.updateOne(
+        findObject,
+        updateObject
+      );
+    } else {
+      // Add review
+      const updateObject = {
+        $push: {
+          reviews: {
+            rating: req.body.rating,
+            comment: req.body.comment,
+            userId: req.user._id,
+          },
+        },
+      };
+      const updatedRecord = await ProductModel.findByIdAndUpdate(
+        req.params.productId,
+        updateObject,
+        {
+          new: true,
+        }
+      );
+    }
+    // console.log(product);
+    // return;
+
+    // console.log(updatedRecord);
+
+    res.json({
+      success: true,
+      message: "Product review saved successfully",
+    });
+  } catch (err) {
+    console.log(err);
   }
-  // console.log(product);
-  // return;
-
-  // console.log(updatedRecord);
-
-  res.json({
-    success: true,
-    message: "Product review saved successfully",
-  });
 };
 
 const controllers = {

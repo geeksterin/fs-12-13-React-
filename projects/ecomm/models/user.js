@@ -1,6 +1,29 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
+const addressSchema = new mongoose.Schema({
+  address: {
+    type: String,
+    required: false,
+    deault: "",
+  },
+  city: {
+    type: String,
+    requied: false,
+    default: "",
+  },
+  state: {
+    type: String,
+    requied: false,
+    default: "",
+  },
+  pincode: {
+    type: String,
+    requied: false,
+    default: "",
+  },
+});
+
 const userSchema = new mongoose.Schema({
   firstname: {
     type: String,
@@ -26,7 +49,10 @@ const userSchema = new mongoose.Schema({
   wishlist: {
     type: [mongoose.Schema.Types.ObjectId],
     default: [],
-    ref: "products"
+    ref: "products",
+  },
+  address: {
+    type: addressSchema,
   },
 });
 
