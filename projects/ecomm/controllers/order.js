@@ -1,4 +1,14 @@
 const dayjs = require("dayjs");
+const Razorpay = require("razorpay");
+const dotenv = require("dotenv");
+
+dotenv.config();
+
+// Initialize payment gateway
+const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
 
 const OrderModel = require("../models/order");
 const CartModel = require("../models/cart");
@@ -60,12 +70,6 @@ const createOrder = async (req, res) => {
 
   const amount = (userCart.cartTotal - couponDiscountInRs).toFixed(2); // Total payable amount
 
-  if (req.body.modeOfPayment === "COD") {
-    // Don't generate transaction ID and don't redirect to payment gateway
-  } else {
-    // TODO : Redirec the user to payment gateway
-  }
-
   let deliveryAddress = req.body.deliveryAddress;
   if (!deliveryAddress) {
     deliveryAddress = req.user.address;
@@ -86,11 +90,35 @@ const createOrder = async (req, res) => {
   };
 
   const newOrder = await OrderModel.create(orderDetails);
+  let pgResponse;
+  if (req.body.modeOfPayment === "COD") {
+    // Don't generate transaction ID and don't redirect to payment gateway
+  } else {
+    // TODO : Redirec the user to payment gateway
+    const options = {
+      amount: amount * 100, // Amount in paisa E.g 50Rs = 5000
+      currency: "INR",
+      receipt: newOrder._id, // Unique Ordre ID
+      payment_capture: 1, // Ignore
+    };
+    console.log("OPITONS", options);
+    try {
+      pgResponse = await razorpay.orders.create(options);
+      console.log("RAZORPAY pgResponse", pgResponse);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   res.json({
     success: true,
     message: "Order placed successfully",
     orderId: newOrder._id,
+    paymentInformation: {
+      amount: pgResponse.amount_due,
+      orderId: pgResponse.id,
+      currency: pgResponse.currency,
+    },
   });
 };
 

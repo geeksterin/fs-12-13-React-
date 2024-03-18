@@ -8,4 +8,8 @@ router.post("/", orderController.createOrder);
 
 router.get("/", orderController.getOrder);
 
+router.post("/payment/payment-status", (req, res) => {
+  const body = req.body;
+});
+
 module.exports = router;
