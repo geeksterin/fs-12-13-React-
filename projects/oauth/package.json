@@ -1,0 +1,21 @@
+{
+  "name": "oauth",
+  "version": "1.0.0",
+  "description": "oauth demo",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "oauth"
+  ],
+  "author": "divyansh",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.1",
+    "express-session": "^1.18.0",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0"
+  }
+}
